@@ -105,7 +105,7 @@ class ConditionalProbabilityTable:
             np.array([0.01, alpha / (parent_levels * len(self.levels))])
         )
         alpha_vector = np.array([alpha_norm] * len(self.levels))
-        alpha_vector[0] *= 10
+        alpha_vector[0] *= 5
         self.array = np.random.dirichlet(alpha_vector, parent_levels).reshape(self.array.shape)
         self.rescale_probabilities()
 
