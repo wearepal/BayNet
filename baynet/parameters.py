@@ -104,9 +104,9 @@ class ConditionalProbabilityTable:
         alpha_norm: np.float64 = np.max(
             np.array([0.01, alpha / (parent_levels * len(self.levels))])
         )
-        self.array = np.random.dirichlet(
-            np.array([alpha_norm] * len(self.levels)), parent_levels
-        ).reshape(self.array.shape)
+        alpha_vector = np.array([alpha_norm] * len(self.levels))
+        alpha_vector[0] *= 10
+        self.array = np.random.dirichlet(alpha_vector, parent_levels).reshape(self.array.shape)
         self.rescale_probabilities()
 
     def marginalise(self, parent: str) -> None:
