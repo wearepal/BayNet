@@ -287,6 +287,7 @@ class DAG(igraph.Graph):
         seed: Optional[int] = None,
     ) -> None:
         """Populate discrete conditional parameter tables for each node."""
+
         try:
             self.vs["levels"]
         except KeyError:
