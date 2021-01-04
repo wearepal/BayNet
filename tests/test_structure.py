@@ -433,37 +433,15 @@ def test_pickling(test_dag):
 
 
 def test_bif_parser():
-    bif_path = (
-        Path(__file__).parent.parent / 'baynet' / 'utils' / 'bif_library' / 'earthquake.bif'
-    ).resolve()
+    bif_path = Path(__file__).parent / 'earthquake.bif'
 
     dag = dag_from_bif(bif_path)
-    earthquake_dag = DAG.from_modelstring(
+    alarm_dag = DAG.from_modelstring(
         "[Alarm|Burglary:Earthquake][Burglary][Earthquake][JohnCalls|Alarm][MaryCalls|Alarm]"
     )
-    assert dag.nodes == earthquake_dag.nodes
-    assert dag.edges == earthquake_dag.edges
+    assert dag.nodes == alarm_dag.nodes
+    assert dag.edges == alarm_dag.edges
     dag.sample(10)
-
-    with pytest.raises(ValueError):
-        dag = dag_from_bif("foo")
-    with pytest.raises(ValueError):
-        dag = dag_from_bif(Path("foo"))
-
-
-def test_bif_library():
-    all_bifs = [
-        p.stem
-        for p in (Path(__file__).parent.parent / 'baynet' / 'utils' / 'bif_library')
-        .resolve()
-        .glob('*.bif')
-    ]
-    for bif in all_bifs[:1]:
-        try:
-            dag = DAG.from_bif(bif)
-            data = dag.sample(1)
-        except Exception as e:
-            raise RuntimeError(f"Error loading {bif}: {e}")
 
 
 def test_plot(temp_out, test_dag):
