@@ -15,7 +15,7 @@ class ConditionalProbabilityTable:
         self.name = vertex["name"]
         self.parents = [str(v["name"]) for v in vertex.neighbors(mode="in")]
         parent_levels = [v["levels"] for v in vertex.neighbors(mode="in")]
-        if any([pl is None for pl in parent_levels]):
+        if any(pl is None for pl in parent_levels):
             raise ValueError(f"Parent of {vertex['name']} missing attribute 'levels'")
         n_parent_levels = [len(v["levels"]) for v in vertex.neighbors(mode="in")]
 

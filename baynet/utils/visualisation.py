@@ -53,10 +53,7 @@ class GraphComparison(igraph.Graph):
         for edge in self.es:
             if edge['color'] is None:
                 edge['color'] = colour
-                if colour == "red":
-                    edge['style'] = "dashed"
-                else:
-                    edge['style'] = "solid"
+                edge['style'] = "dashed" if colour == "red" else "solid"
                 edge['penwidth'] = self.line_width
 
     def plot(self, path: Path = Path().parent / 'comparison.png') -> None:

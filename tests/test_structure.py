@@ -76,7 +76,7 @@ def test_DAG_from_other():
 
 def test_DAG_dtype(test_dag):
     dag = test_dag
-    assert dag.dtype == None
+    assert dag.dtype is None
     dag.generate_continuous_parameters()
     assert dag.dtype == "continuous"
     dag.generate_discrete_parameters()

@@ -91,7 +91,7 @@ class DAG:
         """Instantiate a Graph object from an adjacency matrix."""
         if isinstance(amat, np.ndarray):
             amat = amat.tolist()
-        if not len(colnames) == len(amat):
+        if len(colnames) != len(amat):
             raise ValueError("Dimensions of amat and colnames do not match")
         if not isinstance(colnames, list):
             raise ValueError(
@@ -128,16 +128,18 @@ class DAG:
         """Create a DAG using the Barabasi-Albert algorithm."""
         if seed is not None:
             random.seed(seed)
-        dag = cls(igraph.Graph.Barabasi(n_nodes, m=m_outgoing, power=power, directed=True))
-        return dag
+        return cls(
+            igraph.Graph.Barabasi(
+                n_nodes, m=m_outgoing, power=power, directed=True
+            )
+        )
 
     @classmethod
     def erdos_renyi(cls, n_nodes: int, edge_prob: float, seed: Optional[int] = None) -> "DAG":
         """Create a DAG using the Erdos-Renyi algorithm."""
         if seed is not None:
             random.seed(seed)
-        dag = cls(igraph.Graph.Erdos_Renyi(n_nodes, edge_prob, directed=True))
-        return dag
+        return cls(igraph.Graph.Erdos_Renyi(n_nodes, edge_prob, directed=True))
 
     @classmethod
     def forest_fire(
@@ -151,12 +153,11 @@ class DAG:
         """Create a DAG using the Forest Fire algorithm."""
         if seed is not None:
             random.seed(seed)
-        dag = cls(
+        return cls(
             igraph.Graph.Forest_Fire(
                 n_nodes, fw_prob, bw_factor=bw_factor, ambs=ambs, directed=True
             )
         )
-        return dag
 
     @staticmethod
     def from_bif(bif: Union[Path, str]) -> "DAG":
