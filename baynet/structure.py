@@ -353,8 +353,7 @@ class DAG:
         min_levels: Optional[int] = None,
         max_levels: Optional[int] = None,
         seed: Optional[int] = None,
-        normalise_alpha: bool = True,
-    ) -> DAG:
+    ) -> None:
         """Populate discrete conditional parameter tables for each node."""
         try:
             self.vs["levels"]
@@ -364,8 +363,7 @@ class DAG:
             np.random.seed(seed)
         for vertex in self.vs:
             vertex["CPD"] = ConditionalProbabilityTable(vertex)
-            vertex["CPD"].sample_parameters(alpha=alpha, normalise_alpha=normalise_alpha)
-        return self
+            vertex["CPD"].sample_parameters(alpha=alpha, seed=seed)
 
     def estimate_parameters(
         self,
