@@ -72,7 +72,7 @@ class DAG:
             try:
                 return self.graph.__getattribute__(name)
             except AttributeError:
-                raise errormsg
+                raise AttributeError from errormsg
 
     def __reduce__(self) -> Tuple:
         """Return representation for Pickle."""
@@ -128,11 +128,7 @@ class DAG:
         """Create a DAG using the Barabasi-Albert algorithm."""
         if seed is not None:
             random.seed(seed)
-        return cls(
-            igraph.Graph.Barabasi(
-                n_nodes, m=m_outgoing, power=power, directed=True
-            )
-        )
+        return cls(igraph.Graph.Barabasi(n_nodes, m=m_outgoing, power=power, directed=True))
 
     @classmethod
     def erdos_renyi(cls, n_nodes: int, edge_prob: float, seed: Optional[int] = None) -> "DAG":
@@ -220,7 +216,7 @@ class DAG:
         try:
             return self.vs[self.get_node_index(name)]
         except ValueError:
-            raise KeyError(f"Node `{name}` does not appear in DAG.")
+            raise KeyError(f"Node `{name}` does not appear in DAG.") from None
 
     def add_edge(self, source: str, target: str) -> None:
         """
@@ -411,7 +407,7 @@ class DAG:
             except KeyError:
                 raise ValueError(
                     "`estimate_parameters()` requires levels be defined or `infer_levels=True`"
-                )
+                ) from None
 
         for vertex in self.vs:
             vertex['CPD'] = ConditionalProbabilityTable.estimate(
