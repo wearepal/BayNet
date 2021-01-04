@@ -50,13 +50,16 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/Stoffle/BayNet",
     packages=find_packages(exclude=("tests",)),
-    python_requires=">=3.7",
+    package_data={'baynet': ['baynet/utils/bif_library/*.bif']},
+    include_package_data=True,
+    python_requires=">=3.7, <3.8",
     install_requires=[
-        "python-igraph < 0.8.0",
+        "python-igraph >= 0.8.3",
         "numpy >= 1.17.2",
         "pandas >= 0.25",
         "protobuf",
         "graphviz",
+        "pyparsing",
     ],
     extras_require={
         "dev": [

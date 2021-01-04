@@ -73,7 +73,7 @@ def buf_to_array(array_buf: DAG_pb2.Array) -> np.ndarray:
 def dag_from_bif(bif: Union[Path, str]) -> 'baynet.DAG':
     """Create a DAG object from a .bif file."""
     if isinstance(bif, Path):
-        if not bif.suffix.lower() == ".bif":
+        if bif.suffix.lower() != ".bif":
             raise ValueError(f"Invalid BIF path: {bif}")
         bif_path = bif.resolve()
     else:
