@@ -101,7 +101,7 @@ class ConditionalProbabilityTable:
         if seed is not None:
             np.random.seed(seed)
         parent_levels = int(np.prod(self.array.shape[:-1]))
-        if isinstance(alpha, float):
+        if isinstance(alpha, float) or isinstance(alpha, int):
             alpha_norm: float = np.max(np.array([0.01, alpha / (parent_levels * len(self.levels))]))
             alpha = [alpha_norm] * len(self.levels)
         self.array = np.random.dirichlet(
