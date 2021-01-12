@@ -54,9 +54,9 @@ setup(
     include_package_data=True,
     python_requires=">=3.7, <3.8",
     install_requires=[
-        "python-igraph >= 0.8.3",
+        "python-igraph < 0.8.0",
         "numpy >= 1.17.2",
-        "pandas >= 0.25",
+        "pandas >= 1.2.0",
         "protobuf",
         "graphviz",
         "pyparsing",
