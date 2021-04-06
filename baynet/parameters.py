@@ -94,7 +94,10 @@ class ConditionalProbabilityTable:
         dtype = pd.CategoricalDtype(self.levels, ordered=True)
         return pd.Categorical.from_codes(codes=out_array, dtype=dtype)
 
-    def sample_parameters(self, alpha: Optional[Union[float, List[float]]] = None, seed: Optional[int] = None) -> None:
+    def sample_parameters(self,
+                          alpha: Optional[Union[float, List[float]]] = None,
+                          alpha_normalization: bool = False,
+                          seed: Optional[int] = None) -> None:
         """Sample CPT from dirichlet distribution."""
         if alpha is None:
             alpha = 20.0
@@ -102,7 +105,10 @@ class ConditionalProbabilityTable:
             np.random.seed(seed)
         parent_levels = int(np.prod(self.array.shape[:-1]))
         if isinstance(alpha, float) or isinstance(alpha, int):
-            alpha_norm: float = np.max(np.array([0.01, alpha / (parent_levels * len(self.levels))]))
+            if alpha_normalization:
+                alpha_norm: float = np.max(np.array([0.01, alpha / (parent_levels * len(self.levels))]))
+            else:
+                alpha_norm = alpha
             alpha = [alpha_norm] * len(self.levels)
         self.array = np.random.dirichlet(
             np.array(alpha), parent_levels
