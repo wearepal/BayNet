@@ -422,7 +422,7 @@ class DAG(igraph.Graph):
 
     def plot(self, path: Path = Path().resolve() / 'DAG.png') -> None:
         """Save a plot of the DAG to specified file path."""
-        dag = self.copy()
+        dag = self
         dag.vs['label'] = dag.vs['name']
         dag.vs['fontsize'] = 30
         dag.vs['fontname'] = "Helvetica"
