@@ -56,6 +56,6 @@ jobs:
     - name: Type Check with MyPy
       run: poetry run python run_mypy.py
     - name: Check Docstyle
-      run: poetry run python -m pydocstyle baynet --match=".*(?<\!_pb2)\.py"
+      run: poetry run python -m pydocstyle baynet --match=".*(\?<\!_pb2)\.py"
     - name: Test with pytest
       run: poetry run python -m pytest -vv --cov=baynet --cov-fail-under=95  tests/
