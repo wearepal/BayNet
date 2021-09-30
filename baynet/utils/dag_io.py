@@ -1,14 +1,16 @@
 """Functions for loading/saving DAGs."""
-from typing import no_type_check, Optional, Union
 from pathlib import Path
+from typing import Optional, Union, no_type_check
+
 import numpy as np
 import pyparsing as pp
+
 import baynet
-from baynet.utils import DAG_pb2
 from baynet.parameters import (
     ConditionalProbabilityDistribution,
     ConditionalProbabilityTable,
 )
+from baynet.utils import DAG_pb2
 
 
 @no_type_check
@@ -73,7 +75,7 @@ def buf_to_array(array_buf: DAG_pb2.Array) -> np.ndarray:
 def dag_from_bif(bif: Union[Path, str]) -> 'baynet.DAG':
     """Create a DAG object from a .bif file."""
     if isinstance(bif, Path):
-        if not bif.suffix.lower() == ".bif":
+        if bif.suffix.lower() != ".bif":
             raise ValueError(f"Invalid BIF path: {bif}")
         bif_path = bif.resolve()
     else:

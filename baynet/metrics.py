@@ -1,5 +1,6 @@
 """Metrics for comparing Graph objects."""
 from typing import Set, Tuple
+
 from .structure import DAG
 
 

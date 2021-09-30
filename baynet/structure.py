@@ -1,18 +1,18 @@
 """Graph object."""
 from __future__ import annotations
-
+from copy import deepcopy
 import itertools
 from itertools import combinations
-from typing import List, Union, Tuple, Set, Any, Optional, Type, Dict, Callable
 from pathlib import Path
-from copy import deepcopy
 from string import ascii_uppercase
+from typing import Any, Callable, Dict, List, Optional, Set, Tuple, Type, Union
 
-from typing_extensions import Literal
 import igraph
 import numpy as np
 import pandas as pd
-from pandas.api.types import is_string_dtype, is_integer_dtype, is_categorical_dtype
+from pandas.api.types import is_categorical_dtype, is_integer_dtype, is_string_dtype
+from typing_extensions import Literal
+
 from baynet.utils import dag_io, visualisation
 
 from .interventions import odds_ratio_aggregator
@@ -218,8 +218,7 @@ class DAG:
         return self.vs[name_or_index]
 
     def add_edge(self, source: str, target: str) -> None:
-        """
-        Add a single edge, using node names (as strings).
+        """Add a single edge, using node names (as strings).
 
         Overrides: igraph.Graph.add_edge
         """
@@ -357,8 +356,7 @@ class DAG:
         seed: Optional[int] = None,
         normalise_alpha: bool = True,
     ) -> DAG:
-        """
-        Populate discrete conditional parameter tables for each node.
+        """Populate discrete conditional parameter tables for each node.
 
         Samples parameters from Dirichlet(alpha) (default alpha=20).
         Samples levels uniformly between min_levels and max_levels (default 2,3 respectively).
@@ -516,8 +514,7 @@ class DAG:
         return visualisation.GraphComparison(self, other_graph, list(self.vs['name']))
 
     def name_nodes(self) -> None:
-        """
-        Assign names to unnamed nodes.
+        """Assign names to unnamed nodes.
 
         For use after classmethods from igraph.Graph which don't name nodes.
         """
@@ -526,8 +523,7 @@ class DAG:
                 vertex['name'] = _name_node(vertex.index)
 
     def get_equivalence_class(self, shielded: bool = True, data: pd.DataFrame = None) -> Set[DAG]:
-        """
-        Get the Markov equivalence class of the DAG object.
+        """Get the Markov equivalence class of the DAG object.
 
         If data is provided, a set of learnt BNs, rather than DAGs, will be provided.
         """
@@ -558,8 +554,7 @@ class DAG:
         aggregation: Literal['mean', 'median'] = "median",
         bounds: Optional[Literal['minmax', 'quartiles']] = "minmax",
     ) -> Union[Dict[tuple, Dict[str, float]], Dict[tuple, float]]:
-        """
-        Calculate the adjusted odds ratio for an intervention.
+        """Calculate the adjusted odds ratio for an intervention.
 
         :param config: A config file specifying what interventions to perform.
         :param target: The outcome variable where we want to measure effected change.

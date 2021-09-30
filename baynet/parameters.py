@@ -1,8 +1,9 @@
 """Parameter tables for Graph objects."""
-from typing import List, Tuple, Optional, Union, Dict
+from typing import Dict, List, Optional, Tuple, Union
+
+import igraph
 import numpy as np
 import pandas as pd
-import igraph
 
 
 class ConditionalProbabilityTable:
@@ -15,7 +16,7 @@ class ConditionalProbabilityTable:
         self.name = vertex["name"]
         self.parents = [str(v["name"]) for v in vertex.neighbors(mode="in")]
         parent_levels = [v["levels"] for v in vertex.neighbors(mode="in")]
-        if any([pl is None for pl in parent_levels]):
+        if any(pl is None for pl in parent_levels):
             raise ValueError(f"Parent of {vertex['name']} missing attribute 'levels'")
         n_parent_levels = [len(v["levels"]) for v in vertex.neighbors(mode="in")]
 
@@ -48,12 +49,18 @@ class ConditionalProbabilityTable:
         return cpt
 
     def dfe_estimate(
-        self, data: pd.DataFrame, iterations: int = 250, learning_rate: float = 0.01
+        self,
+        data: pd.DataFrame,
+        iterations: int = 250,
+        learning_rate: float = 0.01,
+        seed: Optional[int] = None,
     ) -> None:
         """Predict parameters using DFE method."""
         self.rescale_probabilities()
         for _, sample in (
-            data.apply(lambda x: x.cat.codes).sample(n=iterations, replace=True).iterrows()
+            data.apply(lambda x: x.cat.codes)
+            .sample(n=iterations, replace=True, random_state=seed)
+            .iterrows()
         ):
             p_cgp = np.zeros(len(self.levels))
             p_cgp[sample[self.name]] = 1
@@ -69,8 +76,7 @@ class ConditionalProbabilityTable:
         self.rescale_probabilities()
 
     def rescale_probabilities(self) -> None:
-        """
-        Rescale probability table rows.
+        """Rescale probability table rows.
 
         Set any variables with no probabilities to be uniform,
         scale CPT rows to sum to 1, then compute cumulative sums

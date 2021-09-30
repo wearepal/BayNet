@@ -1,8 +1,8 @@
 """Graph visualisation functions."""
 from pathlib import Path
 
-import igraph
 import graphviz
+import igraph
 
 
 class GraphComparison(igraph.Graph):

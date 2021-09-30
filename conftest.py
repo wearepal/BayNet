@@ -1,6 +1,9 @@
-import pytest, tempfile
 from pathlib import Path
+import tempfile
+
 import numpy as np
+import pytest
+
 from baynet.structure import DAG
 
 TEST_MODELSTRING = "[A][B|C:D][C|D][D]"
@@ -35,12 +38,3 @@ def test_modelstring() -> str:
 @pytest.fixture(scope="session")
 def reversed_modelstring() -> str:
     return REVERSED_MODELSTRING
-
-
-@pytest.fixture(scope="function")
-def temp_out() -> Path:
-    """
-    Create temporary directory for storing test outputs.
-    """
-    with tempfile.TemporaryDirectory() as tmpdir:
-        yield Path(tmpdir).resolve()
