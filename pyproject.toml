@@ -55,7 +55,7 @@ exclude = '''
 )
 '''
 [tool.isort]
-known_third_party = []
+known_third_party = ["black", "google", "graphviz", "igraph", "mypy", "networkx", "numpy", "pandas", "pydocstyle", "pylint", "pyparsing", "pytest", "typing_extensions", "yaml"]
 known_future_library = []
 extra_standard_library = ["dataclasses", "__future__", "typing_extensions"]
 line_length = 88

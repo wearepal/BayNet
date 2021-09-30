@@ -49,13 +49,18 @@ class ConditionalProbabilityTable:
         return cpt
 
     def dfe_estimate(
-        self, data: pd.DataFrame, iterations: int = 250, learning_rate: float = 0.01, seed: Optional[int] = None
+        self,
+        data: pd.DataFrame,
+        iterations: int = 250,
+        learning_rate: float = 0.01,
+        seed: Optional[int] = None,
     ) -> None:
         """Predict parameters using DFE method."""
-
         self.rescale_probabilities()
         for _, sample in (
-            data.apply(lambda x: x.cat.codes).sample(n=iterations, replace=True, random_state=seed).iterrows()
+            data.apply(lambda x: x.cat.codes)
+            .sample(n=iterations, replace=True, random_state=seed)
+            .iterrows()
         ):
             p_cgp = np.zeros(len(self.levels))
             p_cgp[sample[self.name]] = 1
@@ -71,8 +76,7 @@ class ConditionalProbabilityTable:
         self.rescale_probabilities()
 
     def rescale_probabilities(self) -> None:
-        """
-        Rescale probability table rows.
+        """Rescale probability table rows.
 
         Set any variables with no probabilities to be uniform,
         scale CPT rows to sum to 1, then compute cumulative sums
