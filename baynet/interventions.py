@@ -4,17 +4,17 @@ Functions which perform interventions on a given Bayesian network.
 Only odds ratios currently supported.
 """
 from __future__ import annotations
-
 from pathlib import Path
-from typing import Dict, Union, Tuple, List, TYPE_CHECKING, Optional, cast
+from typing import TYPE_CHECKING, Dict, List, Optional, Tuple, Union, cast
 from typing_extensions import Literal
 
 import numpy as np
 import yaml
 
 if TYPE_CHECKING:
-    from .structure import DAG
     import pandas as pd
+
+    from .structure import DAG
 
 __all__ = ["odds_ratio_aggregator"]
 

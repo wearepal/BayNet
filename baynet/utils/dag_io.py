@@ -1,14 +1,16 @@
 """Functions for loading/saving DAGs."""
-from typing import no_type_check, Optional, Union
 from pathlib import Path
+from typing import Optional, Union, no_type_check
+
 import numpy as np
 import pyparsing as pp
+
 import baynet
-from baynet.utils import DAG_pb2
 from baynet.parameters import (
     ConditionalProbabilityDistribution,
     ConditionalProbabilityTable,
 )
+from baynet.utils import DAG_pb2
 
 
 @no_type_check

@@ -1,8 +1,9 @@
 """Parameter tables for Graph objects."""
-from typing import List, Tuple, Optional, Union, Dict
+from typing import Dict, List, Optional, Tuple, Union
+
+import igraph
 import numpy as np
 import pandas as pd
-import igraph
 
 
 class ConditionalProbabilityTable:

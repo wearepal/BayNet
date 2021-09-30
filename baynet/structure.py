@@ -1,18 +1,18 @@
 """Graph object."""
 from __future__ import annotations
-
+from copy import deepcopy
 import itertools
 from itertools import combinations
-from typing import List, Union, Tuple, Set, Any, Optional, Type, Dict, Callable
 from pathlib import Path
-from copy import deepcopy
 from string import ascii_uppercase
-
+from typing import Any, Callable, Dict, List, Optional, Set, Tuple, Type, Union
 from typing_extensions import Literal
+
 import igraph
 import numpy as np
 import pandas as pd
-from pandas.api.types import is_string_dtype, is_integer_dtype, is_categorical_dtype
+from pandas.api.types import is_categorical_dtype, is_integer_dtype, is_string_dtype
+
 from baynet.utils import dag_io, visualisation
 
 from .interventions import odds_ratio_aggregator

@@ -1,12 +1,13 @@
 import numpy as np
 import pandas as pd
 import pytest
-from baynet.structure import DAG
+
 from baynet.parameters import (
+    ConditionalProbabilityDistribution,
     ConditionalProbabilityTable,
     _sample_cpt,
-    ConditionalProbabilityDistribution,
 )
+from baynet.structure import DAG
 
 
 def test_CPT_init(test_dag):

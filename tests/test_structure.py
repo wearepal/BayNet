@@ -1,18 +1,23 @@
-import pickle
 from pathlib import Path
+import pickle
 from string import ascii_uppercase
-from networkx.generators import directed
 
-import pytest
+import igraph
 import networkx as nx
+from networkx.generators import directed
 import numpy as np
 import pandas as pd
-import igraph
+import pytest
 
-from baynet.utils.dag_io import dag_from_bif
-from baynet.structure import DAG, _nodes_sorted, _nodes_from_modelstring, _edges_from_modelstring
-from baynet.parameters import ConditionalProbabilityDistribution
 from baynet import structure_generation
+from baynet.parameters import ConditionalProbabilityDistribution
+from baynet.structure import (
+    DAG,
+    _edges_from_modelstring,
+    _nodes_from_modelstring,
+    _nodes_sorted,
+)
+from baynet.utils.dag_io import dag_from_bif
 
 
 def test_nodes_sorted():

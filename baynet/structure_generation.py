@@ -5,7 +5,6 @@ from typing import List, Optional, Union
 
 import igraph
 import networkx as nx
-
 import numpy as np
 
 from .structure import DAG

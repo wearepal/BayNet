@@ -1,6 +1,9 @@
-import pytest, tempfile
 from pathlib import Path
+import tempfile
+
 import numpy as np
+import pytest
+
 from baynet.structure import DAG
 
 TEST_MODELSTRING = "[A][B|C:D][C|D][D]"

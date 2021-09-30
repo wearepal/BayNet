@@ -1,8 +1,8 @@
 from typing import Union
 
 import pandas as pd
-
 import pytest
+
 from baynet import DAG
 
 

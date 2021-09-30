@@ -1,10 +1,10 @@
 """Run all checks"""
 import subprocess
 
-import pytest
-from pylint import lint as pylint
-from mypy import api as mypy
 import black
+from mypy import api as mypy
+from pylint import lint as pylint
+import pytest
 
 MODULE_NAME = "baynet"
 

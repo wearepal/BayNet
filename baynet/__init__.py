@@ -1,9 +1,10 @@
 """Python Bayesian Network library."""
-import warnings
 from typing import Any
+import warnings
+
+from baynet.interventions import *
 from baynet.structure import DAG
 from baynet.structure_generation import *
-from baynet.interventions import *
 
 
 class Graph(DAG):
