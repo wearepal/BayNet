@@ -1,14 +1,13 @@
-"""
-Functions which perform interventions on a given Bayesian network.
+"""Functions which perform interventions on a given Bayesian network.
 
 Only odds ratios currently supported.
 """
 from __future__ import annotations
 from pathlib import Path
-from typing import TYPE_CHECKING, Dict, List, Optional, Tuple, Union, cast
-from typing_extensions import Literal
+from typing import TYPE_CHECKING, Dict, List, Optional, Union, cast
 
 import numpy as np
+from typing_extensions import Literal
 import yaml
 
 if TYPE_CHECKING:
@@ -80,8 +79,7 @@ def odds_ratio(
 
 
 def odds_ratio_config(bayesian_network: DAG, config: dict) -> Dict[tuple, float]:
-    """
-    Calculate the odds ratio given a configuration.
+    """Calculate the odds ratio given a configuration.
 
     Configuration specifies target / interventions and their levels.
     """
