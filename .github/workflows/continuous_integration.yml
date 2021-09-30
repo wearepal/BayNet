@@ -44,7 +44,7 @@ jobs:
     #----------------------------------------------
     - name: Install dependencies
       if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-      run: poetry install --no-interaction --no-root -E ci
+      run: poetry install --no-interaction --no-root
     - name: Format with black
       run: |
         poetry run python -m black --check -l 100 -t py37 -S baynet/
