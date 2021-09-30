@@ -50,12 +50,12 @@ jobs:
         poetry run python -m black --check -l 100 -t py37 -S baynet/
         poetry run python -m black --check -l 100 -t py37 -S tests/
     - name: Format with isort
-      run: poetry run isort --check --diff .
+      run: poetry run python -m isort --check --diff .
     - name: Lint with pylint
       run: poetry run python run_pylint.py
     - name: Type Check with MyPy
       run: poetry run python run_mypy.py
     - name: Check Docstyle
-      run: poetry run pydocstyle baynet --match=".*(?<\!_pb2)\.py"
+      run: poetry run python -m pydocstyle baynet --match=".*(?<\!_pb2)\.py"
     - name: Test with pytest
       run: poetry run python -m pytest -vv --cov=baynet --cov-fail-under=95  tests/
