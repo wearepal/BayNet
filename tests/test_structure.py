@@ -221,8 +221,8 @@ def test_DAG_get_v_structures(test_dag, reversed_dag, partial_dag):
     assert other_dag.get_v_structures(True) == dag.get_v_structures(True)
 
 
-def test_DAG_serialise_continuous_file(temp_out, test_dag):
-    dag_path = temp_out / 'cont.pb'
+def test_DAG_serialise_continuous_file(tmp_path, test_dag):
+    dag_path = tmp_path / 'cont.pb'
     dag = test_dag
     dag.generate_continuous_parameters()
     dag.save(dag_path)
@@ -240,8 +240,8 @@ def test_DAG_serialise_continuous_str(test_dag):
     assert dag.edges == dag2.edges
 
 
-def test_DAG_serialise_discrete_file(temp_out, test_dag):
-    dag_path = temp_out / 'cont.pb'
+def test_DAG_serialise_discrete_file(tmp_path, test_dag):
+    dag_path = tmp_path / 'cont.pb'
     dag = test_dag
     dag.generate_discrete_parameters(seed=0)
     dag.save(dag_path)
@@ -266,7 +266,7 @@ def test_DAG_generate_parameters(test_dag):
         assert np.allclose(v['CPD'].array, 1)
 
     for levels in [["0", "1"], ["0", "1", "2"]]:
-        dag.vs['levels'] = [levels for v in dag.vs]
+        dag.vs['levels'] = [levels for _ in dag.vs]
         dag.generate_discrete_parameters(seed=0)
         assert dag.vs[0]['CPD'].array.shape == (len(levels),)
         assert dag.vs[1]['CPD'].array.shape == (len(levels), len(levels), len(levels))
@@ -285,7 +285,7 @@ def test_DAG_estimate_parameters(test_dag):
     dag = test_dag.copy()
     with pytest.raises(ValueError):
         dag.estimate_parameters(data, method="mle")
-    dag.vs['levels'] = [[0, 1] for v in dag.vs]
+    dag.vs['levels'] = [[0, 1] for _ in dag.vs]
     dag.estimate_parameters(data, method="mle")
     assert np.array_equal(dag.vs[0]['CPD'].cumsum_array, [0.5, 1.0])
     assert np.array_equal(dag.vs[1]['CPD'].cumsum_array, [[[0.5, 1.0]] * 2] * 2)
@@ -293,7 +293,7 @@ def test_DAG_estimate_parameters(test_dag):
     assert np.array_equal(dag.vs[3]['CPD'].cumsum_array, [0.0, 1.0])
 
     dag2 = test_dag.copy()
-    dag2.vs['levels'] = [["A", "B"] for v in dag.vs]
+    dag2.vs['levels'] = [["A", "B"] for _ in dag.vs]
     dag2.estimate_parameters(data2, method="mle")
     assert np.array_equal(dag2.vs[0]['CPD'].cumsum_array, [0.5, 1.0])
     assert np.array_equal(dag2.vs[1]['CPD'].cumsum_array, [[[0.5, 1.0]] * 2] * 2)
@@ -301,7 +301,7 @@ def test_DAG_estimate_parameters(test_dag):
     assert np.array_equal(dag2.vs[3]['CPD'].cumsum_array, [0.0, 1.0])
 
     dag3 = test_dag.copy()
-    dag3.vs['levels'] = [["0", "1"] for v in dag.vs]
+    dag3.vs['levels'] = [["0", "1"] for _ in dag.vs]
     dag3.estimate_parameters(data3, method="mle")
     assert np.array_equal(dag3.vs[0]['CPD'].cumsum_array, [0.5, 1.0])
     assert np.array_equal(dag3.vs[1]['CPD'].cumsum_array, [[[0.5, 1.0]] * 2] * 2)
@@ -359,14 +359,14 @@ def test_DAG_estimate_parameters_infer(test_dag):
     assert all(isinstance(level, str) for levels in dag.vs['levels'] for level in levels)
 
 
-def test_DAG_estimate_parameters_sampled_data(test_dag, temp_out):
+def test_DAG_estimate_parameters_sampled_data(test_dag, tmp_path):
     dag = test_dag.copy()
     dag.vs['levels'] = [[5, 6]] * 4
     dag.generate_discrete_parameters(seed=1)
     data = dag.sample(1000)
-    data.to_csv(temp_out / 'data.csv', index=False)
+    data.to_csv(tmp_path / 'data.csv', index=False)
 
-    data_loaded = pd.read_csv(temp_out / 'data.csv')
+    data_loaded = pd.read_csv(tmp_path / 'data.csv')
     dag_est = test_dag.copy()
     dag_est.estimate_parameters(data_loaded, infer_levels=True)
 
@@ -418,7 +418,7 @@ def test_DAG_mutilate(test_dag):
 def test_Graph():
     from baynet import Graph
 
-    g = Graph()
+    _ = Graph()
 
 
 def test_pickling(test_dag):
@@ -469,19 +469,19 @@ def test_bif_library():
     for bif in all_bifs[:1]:
         try:
             dag = DAG.from_bif(bif)
-            data = dag.sample(1)
+            _ = dag.sample(1)
         except Exception as e:
             raise RuntimeError(f"Error loading {bif}: {e}")
 
 
-def test_plot(temp_out, test_dag):
-    img_path = temp_out / 'dag.png'
+def test_plot(tmp_path, test_dag):
+    img_path = tmp_path / 'dag.png'
     test_dag.plot(img_path)
     assert img_path.exists()
 
 
-def test_compare(temp_out, test_dag):
-    img_path = temp_out / 'comparison.png'
+def test_compare(tmp_path, test_dag):
+    img_path = tmp_path / 'comparison.png'
     dag2 = DAG()
     dag2.add_vertices(list("ABCD"))
     comparison_1 = test_dag.compare(dag2)

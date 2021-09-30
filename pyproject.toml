@@ -1,0 +1,111 @@
+[tool.poetry]
+name = "baynet"
+version = "0.1.0"
+description = "(another) Python Bayesian Network library"
+authors = ["Chris Robinson <c.f.robinson@sussex.ac.uk>"]
+license = "GNUv2"
+
+[tool.poetry.dependencies]
+python = "^3.7.1,<3.11"
+python-igraph = "^0.9.6"
+numpy = "^1.21.2"
+pandas = "^1.3.3"
+protobuf = "^3.18.0"
+graphviz = "^0.17"
+pyparsing = "^2.4.7"
+networkx = "^2.6.3"
+PyYAML = "^5.4.1"
+
+[tool.poetry.dev-dependencies]
+black = "^21.9b0"
+mypy = "^0.910"
+pylint = "^2.11.1"
+pytest = "^6.2.5"
+pytest-cov = "^2.12.1"
+pre-commit = "^2.15.0"
+pydocstyle = "^6.1.1"
+types-PyYAML = "^5.4.10"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 100
+target-version = ['py38']
+skip-string-normalization = true
+include = '\.pyi?$'
+exclude = '''
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+    | conduit/hydra
+  )/
+  | foo.py           # also separately exclude a file named foo.py in
+                     # the root of the project
+)
+'''
+[tool.isort]
+known_third_party = []
+known_future_library = []
+extra_standard_library = ["dataclasses", "__future__", "typing_extensions"]
+line_length = 88
+profile = "black"
+force_sort_within_sections = "True"
+classes = ["MISSING"]
+
+[tool.pyright]
+include = ["baynet"]
+exclude = ["**/node_modules", "**/__pycache__"]
+typeCheckingMode = "basic"
+pythonVersion = "3.7"
+reportUnusedImport = "error"
+reportDuplicateImport  = "error"
+reportIncompatibleVariableOverride = "error"
+reportOverlappingOverload = "error"
+reportUntypedNamedTuple = "error"
+reportConstantRedefinition = "warning"
+reportMissingImports = "error"
+reportMissingTypeStubs = "warning"
+strictListInference = true
+strictSetInference = true
+strictParameterNoneValue = true
+
+[tool.mypy]
+python_version = "3.8"
+no_implicit_optional = true
+allow_redefinition = true
+strict_equality = true
+check_untyped_defs = true
+warn_unreachable = true
+disallow_any_unimported = false
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+show_error_codes = true
+warn_unused_ignores = false
+
+[[tool.mypy.overrides]]
+module = [
+    "black",
+    "graphviz",
+    "igraph",
+    "mypy.*",
+    "networkx.*",
+    "numpy.*",
+    "pandas.*",
+    "pydocstyle",
+    "pydotplus.*",
+    "pylint.*",
+    "pyparsing.*",
+    "pytest.*",
+]
+ignore_missing_imports = true

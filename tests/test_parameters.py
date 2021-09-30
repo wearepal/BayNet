@@ -1,5 +1,3 @@
-from time import time
-from unittest.mock import patch
 import numpy as np
 import pandas as pd
 import pytest
@@ -13,7 +11,7 @@ from baynet.parameters import (
 
 def test_CPT_init(test_dag):
     dag = test_dag
-    dag.vs['levels'] = [["0", "1"] for v in dag.vs]
+    dag.vs['levels'] = [["0", "1"] for _ in dag.vs]
     cpt = ConditionalProbabilityTable(dag.vs[1])
     assert cpt.array.shape == (2, 2, 2)
     assert np.allclose(cpt.array, 0)

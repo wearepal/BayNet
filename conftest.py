@@ -35,12 +35,3 @@ def test_modelstring() -> str:
 @pytest.fixture(scope="session")
 def reversed_modelstring() -> str:
     return REVERSED_MODELSTRING
-
-
-@pytest.fixture(scope="function")
-def temp_out() -> Path:
-    """
-    Create temporary directory for storing test outputs.
-    """
-    with tempfile.TemporaryDirectory() as tmpdir:
-        yield Path(tmpdir).resolve()

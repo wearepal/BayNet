@@ -3,9 +3,7 @@ from baynet import metrics
 
 
 def test_check_args(test_dag, reversed_dag):
-    test_dag = test_dag
     test_dag.graph.to_undirected()
-    reversed_dag = reversed_dag
     assert metrics._check_args(reversed_dag, reversed_dag, False)
     assert metrics._check_args(test_dag, reversed_dag, True)
     with pytest.raises(ValueError):
@@ -48,9 +46,6 @@ def test_precision(test_dag, reversed_dag, partial_dag):
 
 
 def test_recall(test_dag, reversed_dag, partial_dag):
-    test_dag = test_dag
-    reversed_dag = reversed_dag
-    partial_dag = partial_dag
     assert metrics.recall(test_dag, test_dag, True) == 1.0
     assert metrics.recall(test_dag, test_dag, False) == 1.0
     assert metrics.recall(test_dag, reversed_dag, True) == 1.0
